@@ -16,7 +16,7 @@ import torchvision
 import types
 
 from tqdm import tqdm
-from tensorboardX import SummaryWriter
+#from tensorboardX import SummaryWriter
 
 import losses
 import datasets
@@ -45,7 +45,7 @@ def train_multi_task(param_file):
     exp_identifier = '|'.join(exp_identifier)
     params['exp_id'] = exp_identifier
 
-    writer = SummaryWriter(log_dir='runs/{}_{}'.format(params['exp_id'], datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")))
+    #writer = SummaryWriter(log_dir='runs/{}_{}'.format(params['exp_id'], datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")))
 
     train_loader, train_dst, val_loader, val_dst = datasets.get_dataset(params, configs)
     loss_fn = losses.get_loss(params)
@@ -160,7 +160,7 @@ def train_multi_task(param_file):
                     for gr_i in range(len(grads[t])):
                         grads[t][gr_i] = grads[t][gr_i] / gn[t]
 
-                # Frank-Wolfe iteration to compute scales.
+                # Frank-Wolfe iteration to compute scales.                
                 sol, min_norm = MinNormSolver.find_min_norm_element([grads[t] for t in tasks])
                 for i, t in enumerate(tasks):
                     scale[t] = float(sol[i])
